@@ -1,0 +1,26 @@
+#+title: 2023年春夏季开源操作系统训练营学习记录
+#+author: Tao Wu
+#+email: taowuuwoat@outlook.com
+
+* STRT 第一阶段训练 [2023-03-31 Fri 00:24]
+** 学习记录 [2023-03-31 Fri 00:29]
+见 [[https://github.com/WuTao18/os-camp-2023-record/phase1-record.org][phase1-record.org]]
+* TODO 第二阶段训练
+* 日志 [2023-03-31 Fri 00:34]
+** [2023-03-31 Fri]
+- 搭建了环境
+- rustlings 刷题，完成了一半 (47/94)
+  - intro
+  - variables
+  - functions
+  - if
+  - quiz1
+  - primitive_types
+  - vecs
+  - move_semantics
+  - structs
+  - enums
+  - strings
+  - modules
+  - hashmaps
+  - quiz2
