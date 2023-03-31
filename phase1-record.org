@@ -114,7 +114,6 @@ fn main() {
 :LOGBOOK:
 CLOCK: [2023-03-31 Fri 23:36]--[2023-03-31 Fri 23:41] =>  0:05
 :END:
-看了一眼题目，感觉有点熟悉，不久前刷过 rust 习题，看了一下，是 rust-by-practice
 *** variables1
 #+begin_src rust
 // variables1.rs

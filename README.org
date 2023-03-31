@@ -4,7 +4,7 @@
 
 * STRT 第一阶段训练 [2023-03-31 Fri 00:24]
 ** 学习记录 [2023-03-31 Fri 00:29]
-见 [[https://github.com/WuTao18/os-camp-2023-record/phase1-record.org][phase1-record.org]]
+见 [[https://github.com/WuTao18/os-camp-2023-record/blob/main/phase1-record.org][phase1-record.org]]
 * TODO 第二阶段训练
 * 日志 [2023-03-31 Fri 00:34]
 ** [2023-03-31 Fri]
