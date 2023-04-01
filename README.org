@@ -1,6 +1,7 @@
 #+title: 2023年春夏季开源操作系统训练营学习记录
 #+author: Tao Wu
 #+email: taowuuwoat@outlook.com
+#+startup: show2levels
 
 * STRT 第一阶段训练 [2023-03-31 Fri 00:24]
 ** 学习记录 [2023-03-31 Fri 00:29]
@@ -24,3 +25,19 @@
   - modules
   - hashmaps
   - quiz2
+
+** [2023-04-01 Sat]
+- rustlings 刷题，完成了剩下的所有题目 (94/94)
+  - options
+  - error_handling
+  - generics
+  - traits
+  - quiz3
+  - tests
+  - lifetimes
+  - standard_library_types
+  - threads
+  - macros
+  - clippy
+  - conversions
+- Rust 的智能指针、多线程和宏之前使用的比较少，还不太熟悉，需要深入学习一下
