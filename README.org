@@ -3,6 +3,7 @@
 #+email: taowuuwoat@outlook.com
 #+startup: show2levels
 
+建议用 Emacs 打开，GitHub 对 Org Mode 渲染不佳。
 * STRT 第一阶段训练 [2023-03-31 Fri 00:24]
 ** 学习记录 [2023-03-31 Fri 00:29]
 见 [[https://github.com/WuTao18/os-camp-2023-record/blob/main/phase1-record.org][phase1-record.org]]
@@ -41,3 +42,6 @@
   - clippy
   - conversions
 - Rust 的智能指针、多线程和宏之前使用的比较少，还不太熟悉，需要深入学习一下
+** [2023-04-03 Mon]
+- [[https://os2edu.cn/course/107][培训课程：Rustling练习入门，基本数据类型，slice类型，所有权]]
+- [[https://book.douban.com/subject/35088440/][计算机组成与设计：硬件/软件接口 RISC-V版]] 第一章
