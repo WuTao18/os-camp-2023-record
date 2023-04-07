@@ -52,3 +52,5 @@
 - [[https://os2edu.cn/course/107][培训课程：Rustlings答疑讲解]]
 ** [2023-04-06 Thu]
 - 学习 [[https://content.riscv.org/wp-content/uploads/2018/05/riscv-privileged-BCN.v7-2.pdf][PPT for RISC-V特权指令级架构]]
+** [2023-04-07 Fri]
+- [[https://cloud.tsinghua.edu.cn/d/e28e066233b144ddb50c/files/?p=%2F2022-09-05%20%E7%AC%AC%E5%85%AD%E6%AC%A1%E8%AF%BE.mp4][程序设计训练（Rust） 6. 并发编程]]
