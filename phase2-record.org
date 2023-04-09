@@ -1,0 +1,61 @@
+#+title: 第二阶段训练学习记录
+#+author: Tao Wu
+#+email: taowuuwoat@outlook.com
+
+* 实验记录 [2023-04-09 Sun 16:30]
+#+BEGIN: clocktable :scope subtree :maxlevel 4
+#+CAPTION: Clock summary at [2023-04-10 Mon 01:25]
+| Headline                        | Time   |      |
+|---------------------------------+--------+------|
+| *Total time*                    | *1:43* |      |
+|---------------------------------+--------+------|
+| 实验记录 [2023-04-09 Sun 16:30] | 1:43   |      |
+| \_  第零章：操作系统概述          |        | 1:43 |
+#+END:
+
+** 第零章：操作系统概述
+:LOGBOOK:
+CLOCK: [2023-04-10 Mon 00:48]--[2023-04-10 Mon 01:17] =>  0:29
+CLOCK: [2023-04-09 Sun 22:30]--[2023-04-09 Sun 22:48] =>  0:18
+CLOCK: [2023-04-09 Sun 20:54]--[2023-04-09 Sun 21:50] =>  0:56
+:END:
+*** 环境配置 [2023-04-09 Sun 20:54]
+**** docker 安装 [2023-04-09 Sun 20:55]
+#+begin_src shell
+yay -Syy
+yay -S docker
+sudo usermod -aG docker $USER
+newgrp docker
+sudo systemctl enable docker
+sudo systemctl start docker
+#+end_src
+**** OS 开发环境配置 [2023-04-09 Sun 21:04]
+#+begin_src shell
+cd 2023s-rcore-WuTao18
+sudo su # 切换到 root 账户
+make build_docker
+exit # 退出 root 账户
+make docker # 进入开发环境
+#+end_src
+
+容器退出就删除不太方便，自己配置过的一些环境会丢失，还是保留容器：
+#+begin_src shell
+docker run -itd -v ${PWD}:/mnt -w /mnt rcore-tutorial-v3 bash
+#+end_src
+
+容器内安装 vim, 切换 apt 源。
+
+尝试运行：
+#+begin_src shell
+git checkout ch1
+cd os
+make run
+#+end_src
+
+* 时间统计 [2023-04-10 Mon 01:23]
+| Headline                        | Time   |      |
+|---------------------------------+--------+------|
+| *Total time*                    | *1:43* |      |
+|---------------------------------+--------+------|
+| 实验记录 [2023-04-09 Sun 16:30] | 1:43   |      |
+| \_  第零章：操作系统概述          |        | 1:43 |
