@@ -4,13 +4,14 @@
 
 * 实验记录 [2023-04-09 Sun 16:30]
 #+BEGIN: clocktable :scope subtree :maxlevel 4
-#+CAPTION: Clock summary at [2023-04-10 Mon 01:25]
-| Headline                        | Time   |      |
-|---------------------------------+--------+------|
-| *Total time*                    | *1:43* |      |
-|---------------------------------+--------+------|
-| 实验记录 [2023-04-09 Sun 16:30] | 1:43   |      |
-| \_  第零章：操作系统概述          |        | 1:43 |
+#+CAPTION: Clock summary at [2023-04-11 Tue 01:40]
+| Headline                                                 | Time   |      |
+|----------------------------------------------------------+--------+------|
+| *Total time*                                             | *2:52* |      |
+|----------------------------------------------------------+--------+------|
+| 实验记录 [2023-04-09 Sun 16:30]                          | 2:52   |      |
+| \_  第零章：操作系统概述                                   |        | 1:43 |
+| \_  第一章：应用程序与基本执行环境 [2023-04-10 Mon 23:16] |        | 1:09 |
 #+END:
 
 ** 第零章：操作系统概述
@@ -52,10 +53,245 @@ cd os
 make run
 #+end_src
 
-* 时间统计 [2023-04-10 Mon 01:23]
-| Headline                        | Time   |      |
-|---------------------------------+--------+------|
-| *Total time*                    | *1:43* |      |
-|---------------------------------+--------+------|
-| 实验记录 [2023-04-09 Sun 16:30] | 1:43   |      |
-| \_  第零章：操作系统概述          |        | 1:43 |
+**** wsl 下开发环境配置 [2023-04-10 Mon 23:53]
+***** qemu 模拟器安装 [2023-04-10 Mon 23:53]
+#+begin_src shell
+yay -S ninja gperf patchutils bc tmux
+
+wget https://download.qemu.org/qemu-7.0.0.tar.xz
+# 解压
+tar xvJf qemu-7.0.0.tar.xz
+# 编译安装并配置 RISC-V 支持
+cd qemu-7.0.0
+./configure --target-list=riscv64-softmmu,riscv64-linux-user
+make -j$(nproc)
+#+end_src
+
+编译失败，报错：
+#+begin_src shell
+/usr/sbin/ld: libcommon.fa.p/ebpf_ebpf_rss.c.o: in function `ebpf_rss_load':
+/home/wutao/rust-os-comp-2023/qemu-7.0.0/build/../ebpf/ebpf_rss.c:52: undefined reference to `bpf_program__set_socket_filter'
+collect2: error: ld returned 1 exit status
+#+end_src
+
+qemu 7.1.0 可以编译 [2023-04-11 Tue 00:16]
+
+加入环境变量：
+#+begin_src shell
+export PATH="$HOME/rust-os-comp-2023/qemu-7.1.0/build/:$PATH"
+export PATH="$HOME/rust-os-comp-2023/qemu-7.1.0/build/riscv64-softmmu:$PATH"
+export PATH="$HOME/rust-os-comp-2023/qemu-7.1.0/build/riscv64-linux-user:$PATH"
+#+end_src
+
+** 第一章：应用程序与基本执行环境 [2023-04-10 Mon 23:16]
+:LOGBOOK:
+CLOCK: [2023-04-11 Tue 00:42]--[2023-04-11 Tue 01:29] =>  0:47
+CLOCK: [2023-04-10 Mon 23:16]--[2023-04-10 Mon 23:38] =>  0:22
+:END:
+*** 如果在 docker 容器外使用 =git checkout ch1= 命令，docker 容器内再使用 git 会报错： [2023-04-10 Mon 23:50]
+#+begin_src shell
+fatal: detected dubious ownership in repository at '/mnt'
+To add an exception for this directory, call:
+
+        git config --global --add safe.directory /mnt
+#+end_src
+
+根据 git 提示信息可以解决： =git config --global --add safe.directory /mnt=
+
+感觉使用容器还是不太方便，还是配置一下 wsl 内的开发环境吧 [2023-04-10 Mon 23:51]
+*** 目标平台与目标三元组
+#+begin_src
+$ rustc --version --verbose
+rustc 1.67.1 (d5a82bbd2 2023-02-07)
+binary: rustc
+commit-hash: d5a82bbd26e1ad8b7401f6a718a9c57c96905483
+commit-date: 2023-02-07
+host: x86_64-unknown-linux-gnu
+release: 1.67.1
+LLVM version: 15.0.6
+#+end_src
+
+#+begin_src
+$ rustc --print target-list | grep riscv
+riscv32gc-unknown-linux-gnu
+riscv32gc-unknown-linux-musl
+riscv32i-unknown-none-elf
+riscv32im-unknown-none-elf
+riscv32imac-unknown-none-elf
+riscv32imac-unknown-xous-elf
+riscv32imc-esp-espidf
+riscv32imc-unknown-none-elf
+riscv64gc-unknown-freebsd
+riscv64gc-unknown-linux-gnu
+riscv64gc-unknown-linux-musl
+riscv64gc-unknown-none-elf
+riscv64gc-unknown-openbsd
+riscv64imac-unknown-none-elf
+#+end_src
+
+*** 修改目标平台
+#+begin_src
+$ cargo run --target riscv64gc-unknown-none-elf
+   Compiling os v0.1.0 (/home/wutao/rust-os-comp-2023/rust-os/os)
+error[E0463]: can't find crate for `std`
+  |
+  = note: the `riscv64gc-unknown-none-elf` target may not be installed
+  = help: consider downloading the target with `rustup target add riscv64gc-unknown-none-elf`
+
+error: cannot find macro `println` in this scope
+ --> src/main.rs:2:5
+  |
+2 |     println!("Hello, world!");
+  |     ^^^^^^^
+
+error: requires `sized` lang_item
+
+For more information about this error, try `rustc --explain E0463`.
+error: could not compile `os` due to 3 previous errors
+#+end_src
+
+=riscv64gc-unknown-none-elf= 的 CPU 架构是 riscv64gc，厂商是 unknown，操作系统是 none， elf 表示没有标准的运行时库。没有任何系统调用的封装支持，但可以生成 ELF 格式的执行程序。
+
+=rustup target add riscv64gc-unknown-none-elf=
+*** 移除 println! 宏
+#+begin_src
+$ cargo build
+   Compiling os v0.1.0 (/home/wutao/rust-os-comp-2023/rust-os/os)
+error: cannot find macro `println` in this scope
+ --> src/main.rs:3:5
+  |
+3 |     println!("Hello, world!");
+  |     ^^^^^^^
+
+error: `#[panic_handler]` function required, but not found
+
+error: could not compile `os` due to 2 previous errors
+#+end_src
+
+*** 提供语义项 panic_handler
+#+begin_src rust
+// os/src/main.rs
+#![no_std]
+mod lang_items;
+fn main() {
+    // println!("Hello, world!");
+}
+#+end_src
+
+#+begin_src rust
+// os/src/lang_items.rs
+use core::panic::PanicInfo;
+
+#[panic_handler]
+fn panic(_info: &PanicInfo) -> ! {
+    loop {}
+}
+#+end_src
+
+#+begin_src
+$ cargo build
+   Compiling os v0.1.0 (/home/wutao/rust-os-comp-2023/rust-os/os)
+error: requires `start` lang_item
+
+error: could not compile `os` due to previous error
+#+end_src
+
+*** 移除 main 函数
+#+begin_src rust
+// os/src/main.rs
+#![no_std]
+#![no_main]
+
+mod lang_items;
+#+end_src
+
+*** 分析被移除标准库的程序
+=rustup component add llvm-tools-preview=
+*** 用户态最小化执行环境
+#+begin_src rust
+// os/src/main.rs
+#![no_std]
+#![no_main]
+
+mod lang_items;
+
+#[no_mangle]
+extern "C" fn _start() {
+    loop{};
+}
+#+end_src
+
+#+begin_src
+$ rust-objdump -S target/riscv64gc-unknown-none-elf/debug/os
+
+target/riscv64gc-unknown-none-elf/debug/os:     file format elf64-littleriscv
+
+Disassembly of section .text:
+
+0000000000011120 <_start>:
+;     loop{};
+   11120: 09 a0         j       0x11122 <_start+0x2>
+   11122: 01 a0         j       0x11122 <_start+0x2>
+#+end_src
+
+程序正常退出
+#+begin_src
+$ rust-objdump -S target/riscv64gc-unknown-none-elf/debug/os
+
+target/riscv64gc-unknown-none-elf/debug/os:     file format elf64-littleriscv
+
+Disassembly of section .text:
+
+0000000000011120 <_start>:
+; }
+   11120: 82 80         ret
+#+end_src
+
+qemu 运行崩溃：
+#+begin_src
+$ qemu-riscv64 target/riscv64gc-unknown-none-elf/debug/os
+[1]    32073 segmentation fault (core dumped)  qemu-riscv64 target/riscv64gc-unknown-none-elf/debug/os
+#+end_src
+
+加入 loop 能运行（死循环）
+
+加入退出机制：
+#+begin_src rust
+// os/src/main.rs
+
+#![no_std]
+#![no_main]
+
+mod lang_items;
+
+const SYSCALL_EXIT: usize = 93;
+
+fn syscall(id: usize, args: [usize; 3]) -> isize {
+    let mut ret;
+    unsafe {
+        core::arch::asm!(
+            "ecall",
+            inlateout("x10") args[0] => ret,
+            in("x11") args[1],
+            in("x12") args[2],
+            in("x17") id,
+        );
+    }
+    ret
+}
+
+pub fn sys_exit(xstate: i32) -> isize {
+    syscall(SYSCALL_EXIT, [xstate as usize, 0, 0])
+}
+
+#[no_mangle]
+extern "C" fn _start() {
+    sys_exit(9);
+}
+#+end_src
+
+#+begin_src
+$ qemu-riscv64 target/riscv64gc-unknown-none-elf/debug/os; echo $?
+9
+#+end_src
+
