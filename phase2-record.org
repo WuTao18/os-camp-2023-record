@@ -4,14 +4,14 @@
 
 * 实验记录 [2023-04-09 Sun 16:30]
 #+BEGIN: clocktable :scope subtree :maxlevel 4
-#+CAPTION: Clock summary at [2023-04-11 Tue 01:40]
+#+CAPTION: Clock summary at [2023-04-12 Wed 02:06]
 | Headline                                                 | Time   |      |
 |----------------------------------------------------------+--------+------|
-| *Total time*                                             | *2:52* |      |
+| *Total time*                                             | *4:27* |      |
 |----------------------------------------------------------+--------+------|
-| 实验记录 [2023-04-09 Sun 16:30]                          | 2:52   |      |
+| 实验记录 [2023-04-09 Sun 16:30]                          | 4:27   |      |
 | \_  第零章：操作系统概述                                   |        | 1:43 |
-| \_  第一章：应用程序与基本执行环境 [2023-04-10 Mon 23:16] |        | 1:09 |
+| \_  第一章：应用程序与基本执行环境 [2023-04-10 Mon 23:16] |        | 2:44 |
 #+END:
 
 ** 第零章：操作系统概述
@@ -85,6 +85,7 @@ export PATH="$HOME/rust-os-comp-2023/qemu-7.1.0/build/riscv64-linux-user:$PATH"
 
 ** 第一章：应用程序与基本执行环境 [2023-04-10 Mon 23:16]
 :LOGBOOK:
+CLOCK: [2023-04-12 Wed 00:25]--[2023-04-12 Wed 02:00] =>  1:35
 CLOCK: [2023-04-11 Tue 00:42]--[2023-04-11 Tue 01:29] =>  0:47
 CLOCK: [2023-04-10 Mon 23:16]--[2023-04-10 Mon 23:38] =>  0:22
 :END:
@@ -295,3 +296,108 @@ $ qemu-riscv64 target/riscv64gc-unknown-none-elf/debug/os; echo $?
 9
 #+end_src
 
+需要补充一下 rust 内联汇编的知识 [2023-04-12 Wed 00:43]
+
+实现输出字符串的相关函数 [2023-04-12 Wed 00:47]
+
+#+begin_src
+$ cargo build
+   Compiling os v0.1.0 (/home/wutao/rust-os-comp-2023/rust-os/os)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.10s
+
+$ qemu-riscv64 target/riscv64gc-unknown-none-elf/debug/os; echo $?
+Hello, world!
+9
+#+end_src
+
+*** 构建裸机执行环境 [2023-04-12 Wed 01:20]
+实现关机功能
+#+begin_src rust
+const SBI_SHUTDOWN: usize = 8;
+
+pub fn shutdown() -> ! {
+    sbi_call(SBI_SHUTDOWN, 0, 0, 0);
+    panic!("It should shutdown!");
+}
+#+end_src
+
+#+begin_src
+$ cargo build --release
+
+$ rust-objcopy --binary-architecture=riscv64 target/riscv64gc-unknown-none-elf/release/os --strip-all -O binary target/riscv64gc-unknown-none-elf/release/os.bin
+
+$ qemu-system-riscv64 -machine virt -nographic -bios ../bootloader/rustsbi-qemu.bin -device loader,file=target/riscv64gc-unknown-none-elf/release/os.bin,addr=0x80200000
+
+# 死循环，CPU 单核负载占满，按 C-a x 退出
+#+end_src
+
+设置正确的程序内存布局 [2023-04-12 Wed 01:38]
+
+正确配置栈空间布局 [2023-04-12 Wed 01:41]
+#+begin_src asm
+# os/src/entry.asm
+    .section .text.entry
+    .globl _start
+_start:
+    la sp, boot_stack_top
+    call rust_main
+
+    .section .bss.stack
+    .globl boot_stack
+boot_stack:
+    .space 4096 * 16
+    .globl boot_stack_top
+boot_stack_top:
+#+end_src
+
+#+begin_src
+$ qemu-system-riscv64 -machine virt -nographic -bios ../bootloader/rustsbi-qemu.bin -device loader,file=target/riscv64gc-unknown-none-elf/release/os.bin,addr=0x80200000
+[rustsbi] RustSBI version 0.3.0-alpha.4, adapting to RISC-V SBI v1.0.0
+.______       __    __      _______.___________.  _______..______   __
+|   _  \     |  |  |  |    /       |           | /       ||   _  \ |  |
+|  |_)  |    |  |  |  |   |   (----`---|  |----`|   (----`|  |_)  ||  |
+|      /     |  |  |  |    \   \       |  |      \   \    |   _  < |  |
+|  |\  \----.|  `--'  |.----)   |      |  |  .----)   |   |  |_)  ||  |
+| _| `._____| \______/ |_______/       |__|  |_______/    |______/ |__|
+[rustsbi] Implementation     : RustSBI-QEMU Version 0.2.0-alpha.2
+[rustsbi] Platform Name      : riscv-virtio,qemu
+[rustsbi] Platform SMP       : 1
+[rustsbi] Platform Memory    : 0x80000000..0x88000000
+[rustsbi] Boot HART          : 0
+[rustsbi] Device Tree Region : 0x87e00000..0x87e00f85
+[rustsbi] Firmware Address   : 0x80000000
+[rustsbi] Supervisor Address : 0x80200000
+[rustsbi] pmp01: 0x00000000..0x80000000 (-wr)
+[rustsbi] pmp02: 0x80000000..0x80200000 (---)
+[rustsbi] pmp03: 0x80200000..0x88000000 (xwr)
+[rustsbi] pmp04: 0x88000000..0x00000000 (-wr)
+#+end_src
+
+清空 .bss 段 [2023-04-12 Wed 01:50]
+#+begin_src rust
+fn clear_bss() {
+    extern "C" {
+        fn sbss();
+        fn ebss();
+    }
+    (sbss as usize..ebss as usize).for_each(|a| {
+        unsafe { (a as *mut u8).write_volatile(0) }
+    });
+}
+#+end_src
+
+添加裸机打印相关函数
+#+begin_src rust
+// os/src/sbi.rs
+pub fn console_putchar(c: usize) {
+    sbi_call(SBI_CONSOLE_PUTCHAR, c, 0, 0);
+}
+
+// os/src/console.rs
+fn write_str(&mut self, s: &str) -> fmt::Result {
+    for c in s.chars() {
+        console_putchar(c as usize);
+    }
+    Ok(())
+}
+#+end_src
