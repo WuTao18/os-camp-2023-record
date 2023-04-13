@@ -65,12 +65,14 @@
 - 配置环境
 ** [2023-04-10 Mon]
 - 重新配置了环境，弃用 docker, 改用 wsl
-- 学习 [[http://rcore-os.cn/rCore-Tutorial-Book-v3/chapter1/index.html][第一章：应用程序与基本执行环境 - rCore-Tutorial-Book-v3 3.6.0-alpha.1 文档]]
+- 学习 [[https://learningos.github.io/rCore-Tutorial-Guide-2023S/chapter1/index.html][第一章：应用程序与基本执行环境 - rCore-Tutorial-Guide-2023S 文档]]
 - [[https://os2edu.cn/course/107][培训课程：Rustlings答疑讲解]]
 ** [2023-04-11 Tue]
 - 学习 risc-v
-- 继续学习 [[http://rcore-os.cn/rCore-Tutorial-Book-v3/chapter1/index.html][第一章：应用程序与基本执行环境 - rCore-Tutorial-Book-v3 3.6.0-alpha.1 文档]]
+- 继续学习 [[https://learningos.github.io/rCore-Tutorial-Guide-2023S/chapter1/index.html][第一章：应用程序与基本执行环境 - rCore-Tutorial-Guide-2023S 文档]]
   - LibOS 跑起来了，文档还需要继续深入学习一下
 ** [2023-04-12 Wed]
 - 学习 risc-v 手册 第 10 章 RV32/64 特权架构
 - [[https://os2edu.cn/course/107][培训课程：智能指针，迭代器和闭包，并发编程]]
+** [2023-04-13 Thu]
+- 学习 [[https://learningos.github.io/rCore-Tutorial-Guide-2023S/chapter2/index.html][第二章：批处理系统 - rCore-Tutorial-Guide-2023S 文档]]
