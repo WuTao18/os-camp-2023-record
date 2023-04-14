@@ -76,3 +76,6 @@
 - [[https://os2edu.cn/course/107][培训课程：智能指针，迭代器和闭包，并发编程]]
 ** [2023-04-13 Thu]
 - 学习 [[https://learningos.github.io/rCore-Tutorial-Guide-2023S/chapter2/index.html][第二章：批处理系统 - rCore-Tutorial-Guide-2023S 文档]]
+** [2023-04-14 Fri]
+- 学习 [[https://learningos.github.io/rCore-Tutorial-Guide-2023S/chapter2/index.html][第二章：批处理系统 - rCore-Tutorial-Guide-2023S 文档]]
+- [[https://os2edu.cn/course/107][培训课程：Rustlings答疑讲解]]
