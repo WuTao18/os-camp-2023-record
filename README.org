@@ -81,3 +81,6 @@
 - [[https://os2edu.cn/course/107][培训课程：Rustlings答疑讲解]]
 ** [2023-04-15 Sat]
 - 学习 [[http://rcore-os.cn/rCore-Tutorial-Book-v3/index.html][rCore-Tutorial-Book-v3]] 第零章＋第一章
+
+** [2023-04-16 Sun]
+- 学习 [[http://rcore-os.cn/rCore-Tutorial-Book-v3/index.html][rCore-Tutorial-Book-v3]] 第一章
