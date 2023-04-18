@@ -86,3 +86,5 @@
 ** [2023-04-17 Mon]
 - 学习 [[http://rcore-os.cn/rCore-Tutorial-Book-v3/index.html][rCore-Tutorial-Book-v3]] 第一章，还剩练习
 - [[https://os2edu.cn/course/108][培训课程：RISC-V 架构和特权级]]
+** [2023-04-18 Tue]
+- 学习 [[http://rcore-os.cn/rCore-Tutorial-Book-v3/index.html][rCore-Tutorial-Book-v3]] 第二章
