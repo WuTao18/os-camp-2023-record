@@ -92,3 +92,7 @@
 - 学习 [[http://rcore-os.cn/rCore-Tutorial-Book-v3/index.html][rCore-Tutorial-Book-v3]] 第二章
 - 学习 [[https://learningos.github.io/rCore-Tutorial-Guide-2023S/index.html][rCore-Tutorial-Guide-2023S]] 第三章
 - [[https://os2edu.cn/course/108][培训课程：页表和内存管理]]
+
+** [2023-04-20 Thu]
+- 学习 [[https://learningos.github.io/rCore-Tutorial-Guide-2023S/index.html][rCore-Tutorial-Guide-2023S]] 第三章
+- 尝试 ch3 实验
