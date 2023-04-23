@@ -98,3 +98,6 @@
 ** [2023-04-21 Fri]
 - 完成 ch3 实验
 - 学习 [[http://rcore-os.cn/rCore-Tutorial-Book-v3/index.html][rCore-Tutorial-Book-v3]] 第四章
+** [2023-04-23 Sun]
+- 学习 [[http://rcore-os.cn/rCore-Tutorial-Book-v3/index.html][rCore-Tutorial-Book-v3]] 第四章
+- 学习 [[https://learningos.github.io/rCore-Tutorial-Guide-2023S/index.html][rCore-Tutorial-Guide-2023S]] 第四章
