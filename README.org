@@ -107,3 +107,6 @@
 - [[https://os2edu.cn/course/108][培训课程：启动及部分内核模块分析]]
 ** [2023-04-25 Tue]
 - 学习 [[http://rcore-os.cn/rCore-Tutorial-Book-v3/index.html][rCore-Tutorial-Book-v3]] 第四章
+** [2023-04-26 Wed]
+- 学习 [[http://rcore-os.cn/rCore-Tutorial-Book-v3/index.html][rCore-Tutorial-Book-v3]] 第四章
+- [[https://os2edu.cn/course/108][培训课程：附加syscall和功能如何影响内核]]
