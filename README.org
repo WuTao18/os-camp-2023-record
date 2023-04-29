@@ -113,3 +113,8 @@
 ** [2023-04-27 Thu]
 - 学习 [[http://rcore-os.cn/rCore-Tutorial-Book-v3/index.html][rCore-Tutorial-Book-v3]] 第四章
 - 尝试 ch4 实验
+** [2023-04-28 Fri]
+- [[https://os2edu.cn/course/108][培训课程：支持应用]]
+- 继续 ch4 实验
+** [2023-04-29 Sat]
+- 完成 ch4 实验
